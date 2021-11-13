@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import 'pages/full_page/bindings/add_binding.dart';
-import 'pages/full_page/bindings/edit_binding.dart';
-import 'pages/full_page/bindings/user_list_binding.dart';
-import 'pages/full_page/controllers/add_controller.dart';
-import 'pages/full_page/controllers/edit_controller.dart';
-import 'pages/full_page/views/add_or_edit.dart';
-import 'pages/full_page/views/user_list.dart';
+import 'pages/dialog_page/dialog_page.dart' as dialog;
+import 'pages/full_page/full_page.dart' as full;
 import 'pages/home_page/home.dart';
 
 class App extends StatelessWidget {
@@ -24,23 +19,30 @@ class App extends StatelessWidget {
             accentColor: Colors.pinkAccent,
           ),
         ),
-        initialRoute: UserListPage.route,
+        initialRoute: HomePage.route,
         getPages: [
           GetPage(name: HomePage.route, page: () => const HomePage()),
           GetPage(
-            name: UserListPage.route,
-            page: () => const UserListPage(),
-            binding: UserListBinding(),
+            name: full.UserListPage.path,
+            page: () => const full.UserListPage(),
+            binding: full.UserListBinding(),
+            children: [
+              GetPage(
+                name: full.AddOrEditPage.addPath,
+                page: () => const full.AddOrEditPage<full.AddController>(),
+                binding: full.AddBindings(),
+              ),
+              GetPage(
+                name: full.AddOrEditPage.editPath,
+                page: () => const full.AddOrEditPage<full.EditController>(),
+                binding: full.EditBindings(),
+              ),
+            ],
           ),
           GetPage(
-            name: AddOrEditPage.addRoute,
-            page: () => const AddOrEditPage<AddController>(),
-            binding: AddBindings(),
-          ),
-          GetPage(
-            name: AddOrEditPage.editRoute,
-            page: () => const AddOrEditPage<EditController>(),
-            binding: EditBindings(),
+            name: dialog.UserListPage.path,
+            page: () => const dialog.UserListPage(),
+            binding: dialog.UserListBinding(),
           ),
         ],
       );

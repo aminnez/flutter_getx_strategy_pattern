@@ -1,60 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../shared/views/getx_view.dart';
 import '../controllers/controller_base.dart';
-import 'user_list.dart';
 
 const SizedBox _space = SizedBox(height: 10);
 
-class AddOrEditPage<T extends ControllerBase> extends GetView<T> {
-  static const String addPath = '/add-user';
-  static const String editPath = '/edit-user/:id';
-
-  static String getEditRoute(final int id) =>
-      '${UserListPage.path}/edit-user/$id';
-  static const String addRoute = '${UserListPage.path}$addPath';
-
-  const AddOrEditPage({final Key? key}) : super(key: key);
+class AddOrEditPage<T extends ControllerBase> extends GetxView<T> {
+  const AddOrEditPage(final GetxViewBuilder<T> controller, {final Key? key})
+      : super(controller, key: key);
 
   @override
-  Widget build(final BuildContext context) => Scaffold(
-        appBar: AppBar(
-          title: Text(controller.title),
-        ),
-        body: Obx(
-          () => controller.pageLoading.value ? _loading() : _body(context),
-        ),
-      );
+  Widget build(final BuildContext context) => _body();
 
-  Container _body(final BuildContext context) => Container(
-        height: context.height,
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(28.0),
-            child: Form(
-              key: controller.formKey,
-              child: Column(
-                children: [
-                  _userName(),
-                  _space,
-                  _userFamily(),
-                  _space,
-                  _userPhone(),
-                  _space,
-                  _space,
-                  _button(),
-                  _space,
-                  Obx(() => Text(controller.responseMessage.value)),
-                ],
-              ),
+  Widget _body() => SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(28.0),
+          child: Form(
+            key: controller.formKey,
+            child: Column(
+              children: [
+                _userName(),
+                _space,
+                _userFamily(),
+                _space,
+                _userPhone(),
+                _space,
+                _space,
+                _button(),
+              ],
             ),
           ),
         ),
       );
 
   Obx _button() => Obx(() => ElevatedButton.icon(
-        onPressed:
-            controller.buttonLoading.value ? null : () => controller.modify(),
+        onPressed: _onModifyTap(),
         icon: controller.buttonLoading.value
             ? const SizedBox(
                 width: 15,
@@ -64,6 +45,9 @@ class AddOrEditPage<T extends ControllerBase> extends GetView<T> {
             : const Icon(Icons.save),
         label: const Text('save'),
       ));
+
+  VoidCallback? _onModifyTap() =>
+      controller.buttonLoading.value ? null : () => controller.modify();
 
   TextFormField _userName() => TextFormField(
         controller: controller.nameTextController,
@@ -143,12 +127,5 @@ class AddOrEditPage<T extends ControllerBase> extends GetView<T> {
         keyboardType: TextInputType.phone,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         validator: (final value) => value!.isEmpty ? 'phone is required' : null,
-      );
-
-  Widget _loading() => LinearProgressIndicator(
-        backgroundColor: Get.context!.theme.primaryColorLight,
-        valueColor: AlwaysStoppedAnimation<Color>(
-          Get.context!.theme.colorScheme.secondary,
-        ),
       );
 }

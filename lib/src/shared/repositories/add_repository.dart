@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 
-import '../../../infrastructure/constants.dart';
+import '../../infrastructure/constants.dart';
 import '../models/add_user_dto.dart';
 import '../models/user_model.dart';
 

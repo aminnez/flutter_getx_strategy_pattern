@@ -3,10 +3,9 @@ import 'package:get/get.dart';
 
 import '../../../shared/models/user_model.dart';
 import '../controllers/user_list_controller.dart';
-import 'add_or_edit.dart';
 
 class UserListPage extends GetView<UserListController> {
-  static const String path = '/full-page/user-list';
+  static const String path = '/dialog-page/user-list';
 
   const UserListPage({final Key? key}) : super(key: key);
 
@@ -16,11 +15,9 @@ class UserListPage extends GetView<UserListController> {
           title: const Text('users list'),
         ),
         floatingActionButton: _addUserButton(),
-        body: _body(context),
-      );
-
-  Obx _body(final BuildContext context) => Obx(
-        () => controller.loading.value ? _loading() : _userList(context),
+        body: Obx(
+          () => controller.loading.value ? _loading() : _userList(context),
+        ),
       );
 
   Container _userList(final BuildContext context) => Container(
@@ -42,7 +39,7 @@ class UserListPage extends GetView<UserListController> {
           onPressed: () => controller.deleteUser(user),
           icon: const Icon(Icons.delete),
         ),
-        onTap: () => Get.toNamed(AddOrEditPage.getEditRoute(user.id)),
+        onTap: () => controller.openEditDialog(user),
       );
 
   Widget _loading() => LinearProgressIndicator(
@@ -53,7 +50,7 @@ class UserListPage extends GetView<UserListController> {
       );
 
   FloatingActionButton _addUserButton() => FloatingActionButton(
+        onPressed: controller.openAddDialog,
         child: const Icon(Icons.add),
-        onPressed: () => Get.toNamed(AddOrEditPage.addRoute),
       );
 }

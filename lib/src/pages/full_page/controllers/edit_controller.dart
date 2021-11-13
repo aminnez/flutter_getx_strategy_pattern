@@ -1,8 +1,8 @@
 import 'package:get/get.dart';
 
-import '../models/edit_user_dto.dart';
-import '../models/user_model.dart';
-import '../repositories/edit_repository.dart';
+import '../../../shared/models/edit_user_dto.dart';
+import '../../../shared/models/user_model.dart';
+import '../../../shared/repositories/edit_repository.dart';
 import 'controller_base.dart';
 import 'user_list_controller.dart';
 

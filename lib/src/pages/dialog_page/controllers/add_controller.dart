@@ -4,7 +4,6 @@ import '../../../shared/models/add_user_dto.dart';
 import '../../../shared/models/user_model.dart';
 import '../../../shared/repositories/add_repository.dart';
 import 'controller_base.dart';
-import 'user_list_controller.dart';
 
 class AddController extends ControllerBase {
   final AddRepository _repository = AddRepository();
@@ -17,7 +16,6 @@ class AddController extends ControllerBase {
       return;
     }
     buttonLoading.value = true;
-    responseMessage.value = '';
     final AddUserDto dto = AddUserDto(
       name: nameTextController.text,
       family: familyTextController.text,
@@ -28,7 +26,6 @@ class AddController extends ControllerBase {
     familyTextController.text = user.family;
     phoneTextController.text = user.phone;
     buttonLoading.value = false;
-    responseMessage.value = 'successfully added.';
-    Get.find<UserListController>().users.add(user);
+    Get.back(result: user);
   }
 }

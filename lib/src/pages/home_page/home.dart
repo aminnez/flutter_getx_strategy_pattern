@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../full_page/views/user_list.dart';
+import '../dialog_page/dialog_page.dart' as dialog;
+import '../full_page/full_page.dart' as full;
 
 class HomePage extends StatefulWidget {
   static const String route = '/home';
@@ -24,9 +25,15 @@ class _HomePageState extends State<HomePage> {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  Get.toNamed(UserListPage.route);
+                  Get.toNamed(full.UserListPage.path);
                 },
                 child: const Text('go to fullPage'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Get.toNamed(dialog.UserListPage.path);
+                },
+                child: const Text('go to dialogPage'),
               ),
             ],
           ),
